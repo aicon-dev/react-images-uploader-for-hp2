@@ -1,28 +1,25 @@
 {
-  "_from": "react-images-uploader@^1.2.0-rc1",
+  "_from": "git+https://github.com/aleksei0807/react-images-uploader.git",
   "_id": "react-images-uploader@1.2.0-rc1",
   "_inBundle": false,
-  "_integrity": "sha512-4V/ooHBKQ4JNFoFD83W2+rBOvMHekLaNWuaaN5SG7qxQIyxUpUXDDjd3a1ireGfRJjgLvf7Xa7D7jNws1EnfWA==",
+  "_integrity": "",
   "_location": "/react-images-uploader",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
-    "registry": true,
-    "raw": "react-images-uploader@^1.2.0-rc1",
-    "name": "react-images-uploader",
-    "escapedName": "react-images-uploader",
-    "rawSpec": "^1.2.0-rc1",
-    "saveSpec": null,
-    "fetchSpec": "^1.2.0-rc1"
+    "type": "git",
+    "raw": "https://github.com/aleksei0807/react-images-uploader",
+    "rawSpec": "https://github.com/aleksei0807/react-images-uploader",
+    "saveSpec": "git+https://github.com/aleksei0807/react-images-uploader.git",
+    "fetchSpec": "https://github.com/aleksei0807/react-images-uploader.git",
+    "gitCommittish": null
   },
   "_requiredBy": [
     "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/react-images-uploader/-/react-images-uploader-1.2.0-rc1.tgz",
-  "_shasum": "a32e32f0ef533b85f1d8e3894719e594b94ed6cd",
-  "_spec": "react-images-uploader@^1.2.0-rc1",
-  "_where": "/Users/dev/temp",
+  "_resolved": "git+https://github.com/aleksei0807/react-images-uploader.git#56f2d682cf6be57edad8f7175bb05ed8393ee362",
+  "_spec": "https://github.com/aleksei0807/react-images-uploader",
+  "_where": "/Users/dev/Desktop/test/react-images-uploader",
   "author": {
     "name": "Aleksei Schurak"
   },
@@ -43,7 +40,6 @@
     "react-dom": "^15.4.1",
     "react-dropzone": "^3.7.3",
     "react-hot-loader": "^3.0.0-beta.6",
-    "react-progress-button": "^5.1.0",
     "react-progress-button-for-images-uploader": "^5.0.1"
   },
   "deprecated": false,

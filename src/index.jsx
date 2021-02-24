@@ -5,7 +5,7 @@ import fetch from "isomorphic-fetch";
 import autobind from "autobind-decorator";
 import classnames from "classnames";
 import Dropzone from "react-dropzone";
-import Button from "react-progress-button";
+import Button from "react-progress-button-for-images-uploader";
 import "babel-core/register";
 import "babel-polyfill";
 
@@ -456,6 +456,7 @@ export default class ImagesUploader extends Component {
 					const err = {
 						message: "server error",
 						status: response ? response.status : false,
+						response,
 						fileName: "ImagesUploader",
 					};
 					this.setState({
@@ -491,6 +492,7 @@ export default class ImagesUploader extends Component {
 			multiple,
 		} = this.props;
 
+		// Return when cancel button click but onChange event trigger
 		if (filesList.length === 0) {
 			return;
 		}
