@@ -1,32 +1,48 @@
 {
-  "_from": "git+https://github.com/aleksei0807/react-images-uploader.git",
-  "_id": "react-images-uploader@1.2.0-rc1",
-  "_inBundle": false,
-  "_integrity": "",
-  "_location": "/react-images-uploader",
-  "_phantomChildren": {},
-  "_requested": {
+  "name": "react-images-uploader",
+  "version": "1.2.0-rc1",
+  "description": "React.js component for uploading images to the server",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir lib && webpack && gulp && cd ./examples/ && webpack",
+    "watch-styles": "gulp watch",
+    "watch-examples": "cd ./examples/ && webpack --watch",
+    "dev-server": "cd ./hot-reload && webpack-dev-server --history-api-fallback --config webpack.config.js",
+    "build-server": "babel server/src --out-dir server/lib",
+    "start-server": "node server/lib/index.js"
+  },
+  "repository": {
     "type": "git",
-    "raw": "https://github.com/aleksei0807/react-images-uploader",
-    "rawSpec": "https://github.com/aleksei0807/react-images-uploader",
-    "saveSpec": "git+https://github.com/aleksei0807/react-images-uploader.git",
-    "fetchSpec": "https://github.com/aleksei0807/react-images-uploader.git",
-    "gitCommittish": null
+    "url": "git+https://github.com/aleksei0807/react-images-uploader.git"
   },
-  "_requiredBy": [
-    "#USER",
-    "/"
+  "keywords": [
+    "react",
+    "components",
+    "images",
+    "image",
+    "upload",
+    "uploader",
+    "uploading",
+    "server",
+    "load",
+    "loader",
+    "загрузка",
+    "картинок",
+    "изображений",
+    "файлов",
+    "загрузить",
+    "компонент",
+    "files",
+    "file",
+    "input"
   ],
-  "_resolved": "git+https://github.com/aleksei0807/react-images-uploader.git#56f2d682cf6be57edad8f7175bb05ed8393ee362",
-  "_spec": "https://github.com/aleksei0807/react-images-uploader",
-  "_where": "/Users/dev/Desktop/test/react-images-uploader",
-  "author": {
-    "name": "Aleksei Schurak"
-  },
+  "author": "Aleksei Schurak",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/aleksei0807/react-images-uploader/issues"
   },
-  "bundleDependencies": false,
+  "homepage": "https://github.com/aleksei0807/react-images-uploader#readme",
   "dependencies": {
     "autobind-decorator": "^1.3.4",
     "babel-core": "^6.20.0",
@@ -42,8 +58,6 @@
     "react-hot-loader": "^3.0.0-beta.6",
     "react-progress-button-for-images-uploader": "^5.0.1"
   },
-  "deprecated": false,
-  "description": "React.js component for uploading images to the server",
   "devDependencies": {
     "autoprefixer": "^6.5.3",
     "babel-cli": "^6.9.0",
@@ -92,44 +106,5 @@
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.16.2"
-  },
-  "homepage": "https://github.com/aleksei0807/react-images-uploader#readme",
-  "keywords": [
-    "react",
-    "components",
-    "images",
-    "image",
-    "upload",
-    "uploader",
-    "uploading",
-    "server",
-    "load",
-    "loader",
-    "загрузка",
-    "картинок",
-    "изображений",
-    "файлов",
-    "загрузить",
-    "компонент",
-    "files",
-    "file",
-    "input"
-  ],
-  "license": "MIT",
-  "main": "lib/index.js",
-  "name": "react-images-uploader",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/aleksei0807/react-images-uploader.git"
-  },
-  "scripts": {
-    "build": "babel src --out-dir lib && webpack && gulp && cd ./examples/ && webpack",
-    "build-server": "babel server/src --out-dir server/lib",
-    "dev-server": "cd ./hot-reload && webpack-dev-server --history-api-fallback --config webpack.config.js",
-    "start-server": "node server/lib/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch-examples": "cd ./examples/ && webpack --watch",
-    "watch-styles": "gulp watch"
-  },
-  "version": "1.2.0-rc1"
+  }
 }

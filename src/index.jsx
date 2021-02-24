@@ -5,7 +5,6 @@ import fetch from "isomorphic-fetch";
 import autobind from "autobind-decorator";
 import classnames from "classnames";
 import Dropzone from "react-dropzone";
-import Button from "react-progress-button-for-images-uploader";
 import "babel-core/register";
 import "babel-polyfill";
 
@@ -492,11 +491,6 @@ export default class ImagesUploader extends Component {
 			multiple,
 		} = this.props;
 
-		// Return when cancel button click but onChange event trigger
-		if (filesList.length === 0) {
-			return;
-		}
-
 		if (onLoadStart && typeof onLoadStart === "function") {
 			onLoadStart();
 		}
@@ -504,7 +498,10 @@ export default class ImagesUploader extends Component {
 		this.setState({
 			loadState: "loading",
 		});
-
+		// Return when cancel button click but onChange event trigger
+		if (filesList.length === 0) {
+			return;
+		}
 		if (
 			this.props.max &&
 			filesList.length + this.state.imagePreviewUrls.length >
@@ -868,7 +865,7 @@ export default class ImagesUploader extends Component {
 								/* eslint-enable no-unneeded-ternary */
 							}
 						>
-							<Button
+							<button
 								state={loadState}
 								type="button"
 								classNamespace={`${classNamespace}button-`}
@@ -889,7 +886,7 @@ export default class ImagesUploader extends Component {
 								onDragLeave={this.hideNotification}
 							>
 								{this.buildButtonContent()}
-							</Button>
+							</button>
 						</Dropzone>
 					</div>
 					<input
