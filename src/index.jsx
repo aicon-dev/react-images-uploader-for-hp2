@@ -1,21 +1,21 @@
 /* @flow */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import fetch from 'isomorphic-fetch';
-import autobind from 'autobind-decorator';
-import classnames from 'classnames';
-import Dropzone from 'react-dropzone';
-import Button from 'react-progress-button-for-images-uploader';
-import 'babel-core/register';
-import 'babel-polyfill';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import fetch from "isomorphic-fetch";
+import autobind from "autobind-decorator";
+import classnames from "classnames";
+import Dropzone from "react-dropzone";
+import Button from "react-progress-button-for-images-uploader";
+import "babel-core/register";
+import "babel-polyfill";
 
 export default class ImagesUploader extends Component {
 	/* eslint-disable react/sort-comp */
 	state: {
-		imagePreviewUrls: Array<string>;
-		loadState: string;
-		optimisticPreviews: Array<string>;
-		displayNotification: boolean;
+		imagePreviewUrls: Array<string>,
+		loadState: string,
+		optimisticPreviews: Array<string>,
+		displayNotification: boolean,
 	};
 	input: ?HTMLInputElement;
 
@@ -47,10 +47,7 @@ export default class ImagesUploader extends Component {
 			PropTypes.string,
 			PropTypes.element,
 		]),
-		plusElement: PropTypes.oneOfType([
-			PropTypes.string,
-			PropTypes.element,
-		]),
+		plusElement: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 		classNames: PropTypes.shape({
 			container: PropTypes.string,
 			label: PropTypes.string,
@@ -79,21 +76,21 @@ export default class ImagesUploader extends Component {
 			filesInputContainer: PropTypes.object,
 			notification: PropTypes.object,
 		}),
-	}
+	};
 
 	static defaultProps = {
-		dataName: 'imageFiles',
-		headers:{},
+		dataName: "imageFiles",
+		headers: {},
 		classNames: {},
 		styles: {},
 		multiple: true,
-		color: '#142434',
-		disabledColor: '#bec3c7',
-		borderColor: '#a9bac8',
-		disabledBorderColor: '#bec3c7',
-		notificationBgColor: 'rgba(0, 0, 0, 0.3)',
-		notificationColor: '#fafafa',
-		classNamespace: 'iu-',
+		color: "#142434",
+		disabledColor: "#bec3c7",
+		borderColor: "#a9bac8",
+		disabledBorderColor: "#bec3c7",
+		notificationBgColor: "rgba(0, 0, 0, 0.3)",
+		notificationColor: "#fafafa",
+		classNamespace: "iu-",
 	};
 
 	constructor(props: Object) {
@@ -107,7 +104,7 @@ export default class ImagesUploader extends Component {
 		}
 		this.state = {
 			imagePreviewUrls,
-			loadState: '',
+			loadState: "",
 			optimisticPreviews: [],
 			displayNotification: false,
 		};
@@ -119,39 +116,53 @@ export default class ImagesUploader extends Component {
 		// support SSR rendering.
 		// we should not use document on server, so just omit
 		// these calls
-		if (typeof document !== 'undefined') {
-			document.addEventListener('dragover', event => {
-				// prevent default to allow drop
-				event.preventDefault();
-			}, false);
-			document.addEventListener('drop', event => {
-				// prevent default to allow drop
-				event.preventDefault();
-			}, false);
+		if (typeof document !== "undefined") {
+			document.addEventListener(
+				"dragover",
+				(event) => {
+					// prevent default to allow drop
+					event.preventDefault();
+				},
+				false
+			);
+			document.addEventListener(
+				"drop",
+				(event) => {
+					// prevent default to allow drop
+					event.preventDefault();
+				},
+				false
+			);
 		}
 	}
 
 	componentWillReceiveProps(nextProps: Object) {
-		if (!this.props.images && nextProps.images && nextProps.multiple !== false) {
+		if (
+			!this.props.images &&
+			nextProps.images &&
+			nextProps.multiple !== false
+		) {
 			this.setState({
 				imagePreviewUrls: nextProps.images,
 			});
 		}
-		if (!this.props.image && nextProps.image && nextProps.multiple === false) {
+		if (
+			!this.props.image &&
+			nextProps.image &&
+			nextProps.multiple === false
+		) {
 			this.setState({
 				imagePreviewUrls: [nextProps.image],
 			});
 		}
 	}
 
-
-
 	@autobind
 	clickImage(key: number, url: string) {
-	    const clickImageCallback = this.props.clickImage;
-	    if (clickImageCallback && typeof clickImageCallback === 'function') {
-          clickImageCallback(key, url);
-      }
+		const clickImageCallback = this.props.clickImage;
+		if (clickImageCallback && typeof clickImageCallback === "function") {
+			clickImageCallback(key, url);
+		}
 	}
 
 	@autobind
@@ -162,14 +173,21 @@ export default class ImagesUploader extends Component {
 			this.setState({
 				imagePreviewUrls,
 			});
-			if (this.props.deleteImage && typeof this.props.deleteImage === 'function') {
+			if (
+				this.props.deleteImage &&
+				typeof this.props.deleteImage === "function"
+			) {
 				this.props.deleteImage(key, url);
 			}
 		}
 	}
 
 	@autobind
-	buildPreviews(urls: Array<string>, optimisticUrls?: Array<string>, inButton?: boolean) {
+	buildPreviews(
+		urls: Array<string>,
+		optimisticUrls?: Array<string>,
+		inButton?: boolean
+	) {
 		const {
 			classNamespace,
 			disabled,
@@ -185,24 +203,34 @@ export default class ImagesUploader extends Component {
 			plusElement,
 		} = this.props;
 
-		if ((!urls || urls.length < 1) && (!optimisticUrls || optimisticUrls.length < 1)) {
+		if (
+			(!urls || urls.length < 1) &&
+			(!optimisticUrls || optimisticUrls.length < 1)
+		) {
 			return (
 				<div
-					className={classNames.emptyPreview || `${classNamespace}emptyPreview`}
+					className={
+						classNames.emptyPreview ||
+						`${classNamespace}emptyPreview`
+					}
 					style={styles.emptyPreview}
-					/>
+				/>
 			);
 		}
 		let previews = [];
 		const multiple = this.props.multiple;
-		if (urls
-			&& urls.length > 0
-			&& (!(multiple === false && optimisticUrls && optimisticUrls.length > 0))) {
+		if (
+			urls &&
+			urls.length > 0 &&
+			!(multiple === false && optimisticUrls && optimisticUrls.length > 0)
+		) {
 			previews = urls.map((url, key) => {
 				if (url) {
 					let imgPreviewStyle = {
 						backgroundImage: `url(${url})`,
-						borderColor: disabled ? disabledBorderColor : borderColor,
+						borderColor: disabled
+							? disabledBorderColor
+							: borderColor,
 					};
 
 					if (this.props.size) {
@@ -219,62 +247,103 @@ export default class ImagesUploader extends Component {
 					const deletePreviewStyle = {
 						...{
 							color: disabled ? disabledColor : color,
-							borderColor: disabled ? disabledBorderColor : borderColor,
+							borderColor: disabled
+								? disabledBorderColor
+								: borderColor,
 						},
 						...(styles.deletePreview || {}),
 					};
 
 					return (
 						<div
-							className={classNames.imgPreview || `${classNamespace}imgPreview`}
+							className={
+								classNames.imgPreview ||
+								`${classNamespace}imgPreview`
+							}
 							key={key}
 							style={imgPreviewStyle}
-					        onClick={(e) => {
-					            e.preventDefault();
-					            this.clickImage(key, url)
-					        }}>
-							{!inButton ? <div
-								className={classNames.deletePreview || `${classNamespace}deletePreview`}
-								style={deletePreviewStyle}
-								onClick={(e) => {
-									e.preventDefault();
-									e.stopPropagation();
-									this.deleteImage(key, url);
-								}}>
-								{deleteElement
-								|| (<svg xmlns="http://www.w3.org/2000/svg" width="7.969" height="8" viewBox="0 0 7.969 8">
-									<path
-										id="X_Icon"
-										data-name="X Icon"
-										style={{
-											fill: disabled ? disabledColor : color,
-											fillRule: 'evenodd',
-										}}
-										/* eslint-disable max-len */
-										d="M562.036,606l2.849-2.863a0.247,0.247,0,0,0,0-.352l-0.7-.706a0.246,0.246,0,0,0-.352,0l-2.849,2.862-2.849-2.862a0.247,0.247,0,0,0-.352,0l-0.7.706a0.249,0.249,0,0,0,0,.352L559.927,606l-2.849,2.862a0.25,0.25,0,0,0,0,.353l0.7,0.706a0.249,0.249,0,0,0,.352,0l2.849-2.862,2.849,2.862a0.249,0.249,0,0,0,.352,0l0.7-.706a0.25,0.25,0,0,0,0-.353Z"
-										/* eslint-enable max-len */
-										transform="translate(-557 -602)"
-										/>
-								</svg>)}
-							</div> : <div
-								className={classNames.notification || `${classNamespace}notification`}
-								style={styles.notification ? {
-									...styles.notification,
-									...{
-										display: this.state.displayNotification ? 'block' : 'none',
-										backgroundColor: notificationBgColor,
-										color: notificationColor,
-									},
-								} : {
-									display: this.state.displayNotification ? 'block' : 'none',
-									backgroundColor: notificationBgColor,
-									color: notificationColor,
-								}}>
-								<span>
-									{this.props.notification
-										|| this.buildPlus(disabled, notificationColor, disabledColor, plusElement)}
-								</span>
-							</div>}
+							onClick={(e) => {
+								e.preventDefault();
+								this.clickImage(key, url);
+							}}
+						>
+							{!inButton ? (
+								<div
+									className={
+										classNames.deletePreview ||
+										`${classNamespace}deletePreview`
+									}
+									style={deletePreviewStyle}
+									onClick={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+										this.deleteImage(key, url);
+									}}
+								>
+									{deleteElement || (
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="7.969"
+											height="8"
+											viewBox="0 0 7.969 8"
+										>
+											<path
+												id="X_Icon"
+												data-name="X Icon"
+												style={{
+													fill: disabled
+														? disabledColor
+														: color,
+													fillRule: "evenodd",
+												}}
+												/* eslint-disable max-len */
+												d="M562.036,606l2.849-2.863a0.247,0.247,0,0,0,0-.352l-0.7-.706a0.246,0.246,0,0,0-.352,0l-2.849,2.862-2.849-2.862a0.247,0.247,0,0,0-.352,0l-0.7.706a0.249,0.249,0,0,0,0,.352L559.927,606l-2.849,2.862a0.25,0.25,0,0,0,0,.353l0.7,0.706a0.249,0.249,0,0,0,.352,0l2.849-2.862,2.849,2.862a0.249,0.249,0,0,0,.352,0l0.7-.706a0.25,0.25,0,0,0,0-.353Z"
+												/* eslint-enable max-len */
+												transform="translate(-557 -602)"
+											/>
+										</svg>
+									)}
+								</div>
+							) : (
+								<div
+									className={
+										classNames.notification ||
+										`${classNamespace}notification`
+									}
+									style={
+										styles.notification
+											? {
+													...styles.notification,
+													...{
+														display: this.state
+															.displayNotification
+															? "block"
+															: "none",
+														backgroundColor: notificationBgColor,
+														color: notificationColor,
+													},
+											  }
+											: {
+													display: this.state
+														.displayNotification
+														? "block"
+														: "none",
+													backgroundColor: notificationBgColor,
+													color: notificationColor,
+											  }
+									}
+								>
+									<span>
+										{this.props.notification ||
+											this.buildPlus(
+												disabled,
+												notificationColor,
+												disabledColor,
+												plusElement
+											)}
+									</span>
+								</div>
+							)}
 						</div>
 					);
 				}
@@ -283,34 +352,41 @@ export default class ImagesUploader extends Component {
 		}
 		if (optimisticUrls && optimisticUrls.length > 0) {
 			const length = previews.length;
-			previews = previews.concat(optimisticUrls.map((url, key) => {
-				if (url) {
-					let imgPreviewStyle = {
-						backgroundImage: `url(${url})`,
-						borderColor: disabled ? disabledBorderColor : borderColor,
-					};
-
-					if (this.props.size) {
-						imgPreviewStyle = {
-							...imgPreviewStyle,
-							...{
-								width: this.props.size,
-								height: this.props.size,
-							},
-							...(styles.imgPreview || {}),
+			previews = previews.concat(
+				optimisticUrls.map((url, key) => {
+					if (url) {
+						let imgPreviewStyle = {
+							backgroundImage: `url(${url})`,
+							borderColor: disabled
+								? disabledBorderColor
+								: borderColor,
 						};
-					}
 
-					return (
-						<div
-							className={classNames.imgPreview || `${classNamespace}imgPreview`}
-							key={length + key}
-							style={imgPreviewStyle}
+						if (this.props.size) {
+							imgPreviewStyle = {
+								...imgPreviewStyle,
+								...{
+									width: this.props.size,
+									height: this.props.size,
+								},
+								...(styles.imgPreview || {}),
+							};
+						}
+
+						return (
+							<div
+								className={
+									classNames.imgPreview ||
+									`${classNamespace}imgPreview`
+								}
+								key={length + key}
+								style={imgPreviewStyle}
 							/>
-					);
-				}
-				return null;
-			}));
+						);
+					}
+					return null;
+				})
+			);
 		}
 		return previews;
 	}
@@ -322,69 +398,80 @@ export default class ImagesUploader extends Component {
 				const imageFormData = new FormData();
 
 				for (let i = 0; i < files.length; i++) {
-					imageFormData.append(this.props.dataName, files[i], files[i].name);
+					imageFormData.append(
+						this.props.dataName,
+						files[i],
+						files[i].name
+					);
 				}
 
 				let response = await fetch(url, {
-					method: 'POST',
-					credentials: 'include',
+					method: "POST",
+					credentials: "include",
 					body: imageFormData,
-					headers: this.props.headers
+					headers: this.props.headers,
 				});
 
 				if (response && response.status && response.status === 200) {
 					response = await response.json();
 					const multiple = this.props.multiple;
-					if (response instanceof Array || typeof response === 'string') {
+					if (
+						response instanceof Array ||
+						typeof response === "string"
+					) {
 						let imagePreviewUrls = [];
 						if (multiple === false) {
-							imagePreviewUrls = response instanceof Array ? response : [response];
+							imagePreviewUrls =
+								response instanceof Array
+									? response
+									: [response];
 						} else {
-							imagePreviewUrls = this.state.imagePreviewUrls.concat(response);
+							imagePreviewUrls = this.state.imagePreviewUrls.concat(
+								response
+							);
 						}
 						this.setState({
 							imagePreviewUrls,
 							optimisticPreviews: [],
-							loadState: 'success',
+							loadState: "success",
 						});
-						if (onLoadEnd && typeof onLoadEnd === 'function') {
+						if (onLoadEnd && typeof onLoadEnd === "function") {
 							onLoadEnd(false, response);
 						}
 					} else {
 						const err = {
-							message: 'invalid response type',
+							message: "invalid response type",
 							response,
-							fileName: 'ImagesUploader',
+							fileName: "ImagesUploader",
 						};
 						this.setState({
-							loadState: 'error',
+							loadState: "error",
 							optimisticPreviews: [],
 						});
-						if (onLoadEnd && typeof onLoadEnd === 'function') {
+						if (onLoadEnd && typeof onLoadEnd === "function") {
 							onLoadEnd(err);
 						}
 					}
 				} else {
 					const err = {
-						message: 'server error',
+						message: "server error",
 						status: response ? response.status : false,
-						response,
-						fileName: 'ImagesUploader',
+						fileName: "ImagesUploader",
 					};
 					this.setState({
-						loadState: 'error',
+						loadState: "error",
 						optimisticPreviews: [],
 					});
-					if (onLoadEnd && typeof onLoadEnd === 'function') {
+					if (onLoadEnd && typeof onLoadEnd === "function") {
 						onLoadEnd(err);
 					}
 				}
 			} catch (err) {
-				if (onLoadEnd && typeof onLoadEnd === 'function') {
+				if (onLoadEnd && typeof onLoadEnd === "function") {
 					onLoadEnd(err);
 				}
 				this.setState({
-					loadState: 'error',
+					loadState: "error",
 					optimisticPreviews: [],
 				});
 			}
@@ -396,30 +483,39 @@ export default class ImagesUploader extends Component {
 		e.preventDefault();
 
 		const filesList = e.target.files;
-		const { onLoadStart, onLoadEnd, url, optimisticPreviews, multiple } = this.props;
+		const {
+			onLoadStart,
+			onLoadEnd,
+			url,
+			optimisticPreviews,
+			multiple,
+		} = this.props;
 
-		if (onLoadStart && typeof onLoadStart === 'function') {
+		if (filesList.length === 0) {
+			return;
+		}
+
+		if (onLoadStart && typeof onLoadStart === "function") {
 			onLoadStart();
 		}
 
 		this.setState({
-			loadState: 'loading',
+			loadState: "loading",
 		});
-		// Return when cancel button click but onChange event trigger
-		if (filesList.length === 0) {
-			return;
-		}
-		if (this.props.max
-			&& (filesList.length + this.state.imagePreviewUrls.length) > this.props.max
+
+		if (
+			this.props.max &&
+			filesList.length + this.state.imagePreviewUrls.length >
+				this.props.max
 		) {
 			const err = {
-				message: 'exceeded the number',
+				message: "exceeded the number",
 			};
 			this.setState({
-				loadState: 'error',
+				loadState: "error",
 				optimisticPreviews: [],
 			});
-			if (onLoadEnd && typeof onLoadEnd === 'function') {
+			if (onLoadEnd && typeof onLoadEnd === "function") {
 				onLoadEnd(err);
 			}
 			return;
@@ -436,26 +532,29 @@ export default class ImagesUploader extends Component {
 							optimisticPreviews: [upload.target.result],
 						});
 					} else {
-						const prevOptimisticPreviews = this.state.optimisticPreviews;
+						const prevOptimisticPreviews = this.state
+							.optimisticPreviews;
 						this.setState({
-							optimisticPreviews: prevOptimisticPreviews.concat(upload.target.result),
+							optimisticPreviews: prevOptimisticPreviews.concat(
+								upload.target.result
+							),
 						});
 					}
 				};
 				reader.readAsDataURL(file);
 			}
 
-			if (!file.type.match('image.*')) {
+			if (!file.type.match("image.*")) {
 				const err = {
-					message: 'file type error',
+					message: "file type error",
 					type: file.type,
-					fileName: 'ImagesUploader',
+					fileName: "ImagesUploader",
 				};
-				if (onLoadEnd && typeof onLoadEnd === 'function') {
+				if (onLoadEnd && typeof onLoadEnd === "function") {
 					onLoadEnd(err);
 				}
 				this.setState({
-					loadState: 'error',
+					loadState: "error",
 				});
 				return;
 			}
@@ -483,28 +582,29 @@ export default class ImagesUploader extends Component {
 		disabled: boolean,
 		color: string,
 		disabledColor: string,
-		plusElement?: string|React$Element<*>
+		plusElement?: string | React$Element<*>
 	) {
-		return plusElement || (
-			<svg
-				version="1.1"
-				xmlns="http://www.w3.org/2000/svg"
-				style={{
-					width: 35,
-					fill: disabled ? disabledColor : color,
-				}}
-				xmlnsXlink="http://www.w3.org/1999/xlink"
-				x="0px"
-				y="0px"
-				viewBox="0 0 1000 1000"
-				enableBackground="new 0 0 1000 1000"
-				xmlSpace="preserve">
-				<g>
-					<path
-						d="M500,10c13.5,0,25.1,4.8,34.7,14.4C544.2,33.9,549,45.5,549,59v392h392c13.5,0,25.1,4.8,34.7,14.4c9.6,9.6,14.4,21.1,14.4,34.7c0,13.5-4.8,25.1-14.4,34.6c-9.6,9.6-21.1,14.4-34.7,14.4H549v392c0,13.5-4.8,25.1-14.4,34.7c-9.6,9.6-21.1,14.4-34.7,14.4c-13.5,0-25.1-4.8-34.7-14.4c-9.6-9.6-14.4-21.1-14.4-34.7V549H59c-13.5,0-25.1-4.8-34.7-14.4C14.8,525.1,10,513.5,10,500c0-13.5,4.8-25.1,14.4-34.7C33.9,455.8,45.5,451,59,451h392V59c0-13.5,4.8-25.1,14.4-34.7C474.9,14.8,486.5,10,500,10L500,10z"
-						/>
-				</g>
-			</svg>
+		return (
+			plusElement || (
+				<svg
+					version="1.1"
+					xmlns="http://www.w3.org/2000/svg"
+					style={{
+						width: 35,
+						fill: disabled ? disabledColor : color,
+					}}
+					xmlnsXlink="http://www.w3.org/1999/xlink"
+					x="0px"
+					y="0px"
+					viewBox="0 0 1000 1000"
+					enableBackground="new 0 0 1000 1000"
+					xmlSpace="preserve"
+				>
+					<g>
+						<path d="M500,10c13.5,0,25.1,4.8,34.7,14.4C544.2,33.9,549,45.5,549,59v392h392c13.5,0,25.1,4.8,34.7,14.4c9.6,9.6,14.4,21.1,14.4,34.7c0,13.5-4.8,25.1-14.4,34.6c-9.6,9.6-21.1,14.4-34.7,14.4H549v392c0,13.5-4.8,25.1-14.4,34.7c-9.6,9.6-21.1,14.4-34.7,14.4c-13.5,0-25.1-4.8-34.7-14.4c-9.6-9.6-14.4-21.1-14.4-34.7V549H59c-13.5,0-25.1-4.8-34.7-14.4C14.8,525.1,10,513.5,10,500c0-13.5,4.8-25.1,14.4-34.7C33.9,455.8,45.5,451,59,451h392V59c0-13.5,4.8-25.1,14.4-34.7C474.9,14.8,486.5,10,500,10L500,10z" />
+					</g>
+				</svg>
+			)
 		);
 	}
 	/* eslint-enable max-len, no-undef */
@@ -526,26 +626,46 @@ export default class ImagesUploader extends Component {
 			...{
 				color: disabled ? disabledColor : color,
 			},
-			...(styles.pseudobuttonContent),
+			...styles.pseudobuttonContent,
 		};
 
 		if (multiple !== false) {
 			return (
 				<span
-					className={classNames.pseudobuttonContent || `${classNamespace}pseudobuttonContent`}
-					style={pseudobuttonContentStyle}>
-					{this.buildPlus(disabled, color, disabledColor, plusElement)}
+					className={
+						classNames.pseudobuttonContent ||
+						`${classNamespace}pseudobuttonContent`
+					}
+					style={pseudobuttonContentStyle}
+				>
+					{this.buildPlus(
+						disabled,
+						color,
+						disabledColor,
+						plusElement
+					)}
 				</span>
 			);
 		}
 		const { imagePreviewUrls, optimisticPreviews } = this.state;
-		if ((!imagePreviewUrls || imagePreviewUrls.length < 1)
-		&& (!optimisticPreviews || optimisticPreviews.length < 1)) {
+		if (
+			(!imagePreviewUrls || imagePreviewUrls.length < 1) &&
+			(!optimisticPreviews || optimisticPreviews.length < 1)
+		) {
 			return (
 				<span
-					className={classNames.pseudobuttonContent || `${classNamespace}pseudobuttonContent`}
-					style={pseudobuttonContentStyle}>
-					{this.buildPlus(disabled, color, disabledColor, plusElement)}
+					className={
+						classNames.pseudobuttonContent ||
+						`${classNamespace}pseudobuttonContent`
+					}
+					style={pseudobuttonContentStyle}
+				>
+					{this.buildPlus(
+						disabled,
+						color,
+						disabledColor,
+						plusElement
+					)}
 				</span>
 			);
 		}
@@ -583,35 +703,52 @@ export default class ImagesUploader extends Component {
 			...(styles.deletePreview || {}),
 		};
 
-		return (<div
-			className={classNames.deletePreview || `${classNamespace}deletePreview`}
-			style={deletePreviewStyle}
-			onClick={(e) => {
-				e.preventDefault();
-				this.deleteImage(0);
-			}}>
-			{deleteElement || (<svg xmlns="http://www.w3.org/2000/svg" width="7.969" height="8" viewBox="0 0 7.969 8">
-				<path
-					id="X_Icon"
-					data-name="X Icon"
-					style={{
-						fill: disabled ? disabledColor : color,
-						fillRrule: 'evenodd',
-					}}
-					/* eslint-disable max-len */
-					d="M562.036,606l2.849-2.863a0.247,0.247,0,0,0,0-.352l-0.7-.706a0.246,0.246,0,0,0-.352,0l-2.849,2.862-2.849-2.862a0.247,0.247,0,0,0-.352,0l-0.7.706a0.249,0.249,0,0,0,0,.352L559.927,606l-2.849,2.862a0.25,0.25,0,0,0,0,.353l0.7,0.706a0.249,0.249,0,0,0,.352,0l2.849-2.862,2.849,2.862a0.249,0.249,0,0,0,.352,0l0.7-.706a0.25,0.25,0,0,0,0-.353Z"
-					/* eslint-enable max-len */
-					transform="translate(-557 -602)"
-					/>
-			</svg>)}
-		</div>);
+		return (
+			<div
+				className={
+					classNames.deletePreview || `${classNamespace}deletePreview`
+				}
+				style={deletePreviewStyle}
+				onClick={(e) => {
+					e.preventDefault();
+					this.deleteImage(0);
+				}}
+			>
+				{deleteElement || (
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="7.969"
+						height="8"
+						viewBox="0 0 7.969 8"
+					>
+						<path
+							id="X_Icon"
+							data-name="X Icon"
+							style={{
+								fill: disabled ? disabledColor : color,
+								fillRrule: "evenodd",
+							}}
+							/* eslint-disable max-len */
+							d="M562.036,606l2.849-2.863a0.247,0.247,0,0,0,0-.352l-0.7-.706a0.246,0.246,0,0,0-.352,0l-2.849,2.862-2.849-2.862a0.247,0.247,0,0,0-.352,0l-0.7.706a0.249,0.249,0,0,0,0,.352L559.927,606l-2.849,2.862a0.25,0.25,0,0,0,0,.353l0.7,0.706a0.249,0.249,0,0,0,.352,0l2.849-2.862,2.849,2.862a0.249,0.249,0,0,0,.352,0l0.7-.706a0.25,0.25,0,0,0,0-.353Z"
+							/* eslint-enable max-len */
+							transform="translate(-557 -602)"
+						/>
+					</svg>
+				)}
+			</div>
+		);
 	}
 
 	@autobind
 	showNotification() {
 		const { multiple, disabled } = this.props;
 		const { imagePreviewUrls } = this.state;
-		if (!disabled && multiple === false && imagePreviewUrls && imagePreviewUrls.length > 0) {
+		if (
+			!disabled &&
+			multiple === false &&
+			imagePreviewUrls &&
+			imagePreviewUrls.length > 0
+		) {
 			this.setState({
 				displayNotification: true,
 			});
@@ -651,10 +788,12 @@ export default class ImagesUploader extends Component {
 		});
 
 		const loadContainerStyle = {
-			...(size ? {
-				width: size,
-				height: size,
-			} : {}),
+			...(size
+				? {
+						width: size,
+						height: size,
+				  }
+				: {}),
 			...{
 				color: disabled ? disabledColor : color,
 			},
@@ -662,10 +801,12 @@ export default class ImagesUploader extends Component {
 		};
 
 		const pseudobuttonStyle = {
-			...(size ? {
-				width: size,
-				height: size,
-			} : {}),
+			...(size
+				? {
+						width: size,
+						height: size,
+				  }
+				: {}),
 			...{
 				color: disabled ? disabledColor : color,
 			},
@@ -691,32 +832,48 @@ export default class ImagesUploader extends Component {
 				<label
 					className={classNames.label || `${classNamespace}label`}
 					style={labelStyle}
-					htmlFor={inputId || 'filesInput'}>
+					htmlFor={inputId || "filesInput"}
+				>
 					{label || null}
 				</label>
 				<div
-					className={classNames.filesInputContainer || `${classNamespace}filesInputContainer`}
-					style={styles.filesInputContainer}>
+					className={
+						classNames.filesInputContainer ||
+						`${classNamespace}filesInputContainer`
+					}
+					style={styles.filesInputContainer}
+				>
 					<div
-						className={classNames.loadContainer || `${classNamespace}loadContainer`}
-						style={loadContainerStyle}>
+						className={
+							classNames.loadContainer ||
+							`${classNamespace}loadContainer`
+						}
+						style={loadContainerStyle}
+					>
 						{this.buildClose()}
 						<Dropzone
 							onDrop={this.handleFileDrop}
 							disableClick
 							accept="image/*"
-							className={classNames.dropzone || `${classNamespace}dropzone`}
+							className={
+								classNames.dropzone ||
+								`${classNamespace}dropzone`
+							}
 							style={dropzoneStyle}
 							multiple={
 								/* eslint-disable no-unneeded-ternary */
 								multiple === false ? false : true
 								/* eslint-enable no-unneeded-ternary */
-							}>
+							}
+						>
 							<Button
 								state={loadState}
 								type="button"
 								classNamespace={`${classNamespace}button-`}
-								className={classNames.pseudobutton || `${classNamespace}pseudobutton`}
+								className={
+									classNames.pseudobutton ||
+									`${classNamespace}pseudobutton`
+								}
 								style={pseudobuttonStyle}
 								onClick={(e) => {
 									e.preventDefault();
@@ -727,18 +884,21 @@ export default class ImagesUploader extends Component {
 								onMouseOver={this.showNotification}
 								onMouseLeave={this.hideNotification}
 								onDragOver={this.showNotification}
-								onDragLeave={this.hideNotification}>
+								onDragLeave={this.hideNotification}
+							>
 								{this.buildButtonContent()}
 							</Button>
 						</Dropzone>
 					</div>
 					<input
-						name={inputId || 'filesInput'}
-						id={inputId || 'filesInput'}
-						className={classNames.fileInput || `${classNamespace}fileInput`}
+						name={inputId || "filesInput"}
+						id={inputId || "filesInput"}
+						className={
+							classNames.fileInput || `${classNamespace}fileInput`
+						}
 						style={{
 							...{
-								display: 'none',
+								display: "none",
 							},
 							...(styles.fileInput || {}),
 						}}
@@ -747,15 +907,16 @@ export default class ImagesUploader extends Component {
 						}}
 						type="file"
 						accept="image/*"
-						multiple={multiple === false ? false : 'multiple'}
-						disabled={disabled || loadState === 'loading'}
+						multiple={multiple === false ? false : "multiple"}
+						disabled={disabled || loadState === "loading"}
 						onChange={this.handleImageChange}
-						/>
+					/>
 				</div>
 				{multiple !== false
 					? this.buildPreviews(
-						imagePreviewUrls,
-						this.props.optimisticPreviews && optimisticPreviews)
+							imagePreviewUrls,
+							this.props.optimisticPreviews && optimisticPreviews
+					  )
 					: null}
 			</div>
 		);
