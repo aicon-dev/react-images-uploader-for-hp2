@@ -647,19 +647,25 @@ export default class ImagesUploader extends Component {
 			(!optimisticPreviews || optimisticPreviews.length < 1)
 		) {
 			return (
-				<span
-					className={
+				<div>
+					{(this.state.loadState === '' || this.state.loadState === 'success') && <div>
+						<p style={{fontSize: 10}}>눌러서 사진을 등록해주세요.</p></div>}
+					{this.state.loadState === 'loading' && <p style={{fontSize: 10}}>사진을 올리고 있습니다. 기다려주십시오.</p> }
+					{this.state.loadState === 'error' && <p style={{fontSize: 10}}>사진 올리기에 실패하였습니다.</p>}
+					{/* <span
+						className={
 						classNames.pseudobuttonContent ||
 						`${classNamespace}pseudobuttonContent`
 					}
-					style={pseudobuttonContentStyle}>
-					{this.buildPlus(
+						style={pseudobuttonContentStyle}>
+						{this.buildPlus(
 						disabled,
 						color,
 						disabledColor,
 						plusElement
 					)}
-				</span>
+					</span> */}
+				</div>
 			);
 		}
 		return this.buildPreviews(imagePreviewUrls, optimisticPreviews, true);
@@ -874,9 +880,6 @@ export default class ImagesUploader extends Component {
 								onDragOver={this.showNotification}
 								onDragLeave={this.hideNotification}>
 								{this.buildButtonContent()}
-								{(loadState === '' || loadState === 'success') && <p style={{fontSize: 10}}>사진을 올려주세요</p>}
-								{loadState === 'loading' && <p style={{fontSize: 10}}>사진을 올리고 있습니다. 기다려주십시오.</p> }
-								{loadState === 'error' && <p style={{fontSize: 10}}>사진 올리기에 실패하였습니다.</p>}
 							</button>
 						</Dropzone>
 					</div>
