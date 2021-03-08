@@ -5,10 +5,13 @@ import ImagesUploader from '../../lib/index';
 import '../../styles.css';
 import '../../font.css';
 
+const url = 'https://localhost:8080/upload/image/report';
+console.log('url', url);
+
 ReactDOM.render(
 	<div className="examples-container">
 		<ImagesUploader
-			url="http://localhost:9090/multiple"
+			url={url}
 			optimisticPreviews
 			onLoadEnd={(err) => {
 				if (err) {
@@ -18,7 +21,7 @@ ReactDOM.render(
 			label="Upload multiple images"
 			/>
 		<ImagesUploader
-			url="http://localhost:9090/notmultiple"
+			url={url}
 			optimisticPreviews
 			multiple={false}
 			onLoadEnd={(err) => {
