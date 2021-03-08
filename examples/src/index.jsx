@@ -36,6 +36,7 @@ ReactDOM.render(
 			}}
 			label="Upload a picture"
 			/>
+
 	</div>,
 	document.getElementById('root')
 );
