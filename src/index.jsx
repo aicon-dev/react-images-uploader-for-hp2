@@ -429,7 +429,6 @@ export default class ImagesUploader extends Component {
 						setTimeout(() => {
 							this.setState({
 								imagePreviewUrls,
-								optimisticPreviews: [],
 								loadState: 'success',
 							});
 						}, 2000);
@@ -657,7 +656,7 @@ export default class ImagesUploader extends Component {
 					)}
 							</span>
 						</p></div>}
-					{this.state.loadState === 'loading' && <div className="loader">Loading...</div>}
+					{this.state.loadState === 'loading' && <div className="loader">올리는 중...</div>}
 					{this.state.loadState === 'error' && <p style={{fontSize: 15, color: 'red'}}>첨부 실패</p>}
 				</div>
 			);
