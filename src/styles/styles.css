@@ -270,10 +270,10 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 
 .loader {
 	font-size: 10px;
-	margin: 50px auto;
+	/* margin: 50px auto; */
 	text-indent: -9999em;
-	width: 11em;
-	height: 11em;
+	width: 8em;
+	height: 8em;
 	border-radius: 50%;
 	background: #ffffff;
 	background: -moz-linear-gradient(
@@ -319,7 +319,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 	content: "";
 }
 .loader:after {
-	background: #0dc5c1;
+	background: #efefef;
 	width: 75%;
 	height: 75%;
 	border-radius: 50%;

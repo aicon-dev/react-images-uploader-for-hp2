@@ -425,11 +425,15 @@ export default class ImagesUploader extends Component {
 								response
 							);
 						}
-						this.setState({
-							imagePreviewUrls,
-							optimisticPreviews: [],
-							loadState: 'success',
-						});
+
+						setTimeout(() => {
+							this.setState({
+								imagePreviewUrls,
+								optimisticPreviews: [],
+								loadState: 'success',
+							});
+						}, 2000);
+				
 						if (onLoadEnd && typeof onLoadEnd === 'function') {
 							onLoadEnd(false, response);
 						}
@@ -439,10 +443,12 @@ export default class ImagesUploader extends Component {
 							response,
 							fileName: 'ImagesUploader',
 						};
-						this.setState({
-							loadState: 'error',
-							optimisticPreviews: [],
-						});
+						setTimeout(() => {
+							this.setState({
+								loadState: 'error',
+								optimisticPreviews: [],
+							});
+						}, 2000);
 						if (onLoadEnd && typeof onLoadEnd === 'function') {
 							onLoadEnd(err);
 						}
@@ -454,10 +460,12 @@ export default class ImagesUploader extends Component {
 						response,
 						fileName: 'ImagesUploader',
 					};
-					this.setState({
-						loadState: 'error',
-						optimisticPreviews: [],
-					});
+					setTimeout(() => {
+						this.setState({
+							loadState: 'error',
+							optimisticPreviews: [],
+						});
+					}, 2000);
 					if (onLoadEnd && typeof onLoadEnd === 'function') {
 						onLoadEnd(err);
 					}
@@ -466,10 +474,12 @@ export default class ImagesUploader extends Component {
 				if (onLoadEnd && typeof onLoadEnd === 'function') {
 					onLoadEnd(err);
 				}
-				this.setState({
-					loadState: 'error',
-					optimisticPreviews: [],
-				});
+				setTimeout(() => {
+					this.setState({
+						loadState: 'error',
+						optimisticPreviews: [],
+					});
+				}, 2000);
 			}
 		}
 	}
@@ -507,10 +517,12 @@ export default class ImagesUploader extends Component {
 			const err = {
 				message: 'exceeded the number',
 			};
-			this.setState({
-				loadState: 'error',
-				optimisticPreviews: [],
-			});
+			setTimeout(() => {
+				this.setState({
+					loadState: 'error',
+					optimisticPreviews: [],
+				});
+			}, 2000);
 			if (onLoadEnd && typeof onLoadEnd === 'function') {
 				onLoadEnd(err);
 			}
@@ -549,9 +561,11 @@ export default class ImagesUploader extends Component {
 				if (onLoadEnd && typeof onLoadEnd === 'function') {
 					onLoadEnd(err);
 				}
-				this.setState({
-					loadState: 'error',
-				});
+				setTimeout(() => {
+					this.setState({
+						loadState: 'error',
+					});
+				}, 2000);
 				return;
 			}
 		}
@@ -626,27 +640,6 @@ export default class ImagesUploader extends Component {
 
 		if (multiple !== false) {
 			return (
-				<span
-					className={
-						classNames.pseudobuttonContent ||
-						`${classNamespace}pseudobuttonContent`
-					}
-					style={pseudobuttonContentStyle}>
-					{this.buildPlus(
-						disabled,
-						color,
-						disabledColor,
-						plusElement
-					)}
-				</span>
-			);
-		}
-		const { imagePreviewUrls, optimisticPreviews } = this.state;
-		if (
-			(!imagePreviewUrls || imagePreviewUrls.length < 1) &&
-			(!optimisticPreviews || optimisticPreviews.length < 1)
-		) {
-			return (
 				<div>
 					{(this.state.loadState === '' || this.state.loadState === 'success') && <div>
 						<p style={{fontSize: 10}}>
@@ -665,7 +658,35 @@ export default class ImagesUploader extends Component {
 							</span>
 						</p></div>}
 					{this.state.loadState === 'loading' && <div className="loader">Loading...</div>}
-					{this.state.loadState === 'error' && <p style={{fontSize: 15, color: 'red'}}>업로드 실패</p>}
+					{this.state.loadState === 'error' && <p style={{fontSize: 15, color: 'red'}}>첨부 실패</p>}
+				</div>
+			);
+		}
+		const { imagePreviewUrls, optimisticPreviews } = this.state;
+		if (
+			(!imagePreviewUrls || imagePreviewUrls.length < 1) &&
+			(!optimisticPreviews || optimisticPreviews.length < 1)
+		) {
+			return (
+				<div >
+					{(this.state.loadState === '' || this.state.loadState === 'success') && <div>
+						<p style={{fontSize: 10}}>
+							 <span
+								className={
+						classNames.pseudobuttonContent ||
+						`${classNamespace}pseudobuttonContent`
+					}
+								style={pseudobuttonContentStyle}>
+								{this.buildPlus(
+						disabled,
+						color,
+						disabledColor,
+						plusElement
+					)}
+							</span>
+						</p></div>}
+					{this.state.loadState === 'loading' && <div style={{background: 'white'}} className="loader">Loading...</div>}
+					{this.state.loadState === 'error' && <p style={{fontSize: 15, color: 'red'}}>첨부 실패</p>}
 				</div>
 			);
 		}
