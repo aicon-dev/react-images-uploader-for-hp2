@@ -226,7 +226,7 @@ export default class ImagesUploader extends Component {
 			previews = urls.map((url, key) => {
 				if (url) {
 					let imgPreviewStyle = {
-						backgroundImage: `url('"${url}"')`,
+						backgroundImage: `url("${url}")`,
 						borderColor: disabled
 							? disabledBorderColor
 							: borderColor,
@@ -266,90 +266,77 @@ export default class ImagesUploader extends Component {
 								this.clickImage(key, url);
 							}}>
 							{!inButton ? (
-								<div className={'uploaded-images'} >
-									<img className={'uploaded-images__image'} style={{width: '100%', height: '100%'}} src={url} />
-									 	{deleteElement || <div className="uploaded-images__remve-btn">(
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="7.969"
-										height="8"
-										viewBox="0 0 7.969 8">
-										<path
-											id="X_Icon"
-											data-name="X Icon"
-											style={{
-								 					fill: disabled
-								 						? disabledColor
-								 						: color,
-								 					fillRule: 'evenodd',
-								 				}}
-								 				/* eslint-disable max-len */
-											d="M562.036,606l2.849-2.863a0.247,0.247,0,0,0,0-.352l-0.7-.706a0.246,0.246,0,0,0-.352,0l-2.849,2.862-2.849-2.862a0.247,0.247,0,0,0-.352,0l-0.7.706a0.249,0.249,0,0,0,0,.352L559.927,606l-2.849,2.862a0.25,0.25,0,0,0,0,.353l0.7,0.706a0.249,0.249,0,0,0,.352,0l2.849-2.862,2.849,2.862a0.249,0.249,0,0,0,.352,0l0.7-.706a0.25,0.25,0,0,0,0-.353Z"
-								 				/* eslint-enable max-len */
-											transform="translate(-557 -602)"
-											/>
-									</svg>
-								 	)</div>}
+								<div
+									className={
+										classNames.deletePreview ||
+										`${classNamespace}deletePreview`
+									}
+									style={deletePreviewStyle}
+									onClick={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+										this.deleteImage(key, url);
+									}}>
+									{deleteElement || (
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="7.969"
+											height="8"
+											viewBox="0 0 7.969 8">
+											<path
+												id="X_Icon"
+												data-name="X Icon"
+												style={{
+													fill: disabled
+														? disabledColor
+														: color,
+													fillRule: 'evenodd',
+												}}
+												/* eslint-disable max-len */
+												d="M562.036,606l2.849-2.863a0.247,0.247,0,0,0,0-.352l-0.7-.706a0.246,0.246,0,0,0-.352,0l-2.849,2.862-2.849-2.862a0.247,0.247,0,0,0-.352,0l-0.7.706a0.249,0.249,0,0,0,0,.352L559.927,606l-2.849,2.862a0.25,0.25,0,0,0,0,.353l0.7,0.706a0.249,0.249,0,0,0,.352,0l2.849-2.862,2.849,2.862a0.249,0.249,0,0,0,.352,0l0.7-.706a0.25,0.25,0,0,0,0-.353Z"
+												/* eslint-enable max-len */
+												transform="translate(-557 -602)"
+												/>
+										</svg>
+									)}
 								</div>
-								// <div
-								// 	className={
-								// 		classNames.deletePreview ||
-								// 		`${classNamespace}deletePreview`
-								// 	}
-								// 	style={deletePreviewStyle}
-								// 	onClick={(e) => {
-								// 		e.preventDefault();
-								// 		e.stopPropagation();
-								// 		this.deleteImage(key, url);
-								// 	}}>
-								// 	{deleteElement || (
-								// 		<svg
-								// 			xmlns="http://www.w3.org/2000/svg"
-								// 			width="7.969"
-								// 			height="8"
-								// 			viewBox="0 0 7.969 8">
-								// 			<path
-								// 				id="X_Icon"
-								// 				data-name="X Icon"
-								// 				style={{
-								// 					fill: disabled
-								// 						? disabledColor
-								// 						: color,
-								// 					fillRule: 'evenodd',
-								// 				}}
-								// 				/* eslint-disable max-len */
-								// 				d="M562.036,606l2.849-2.863a0.247,0.247,0,0,0,0-.352l-0.7-.706a0.246,0.246,0,0,0-.352,0l-2.849,2.862-2.849-2.862a0.247,0.247,0,0,0-.352,0l-0.7.706a0.249,0.249,0,0,0,0,.352L559.927,606l-2.849,2.862a0.25,0.25,0,0,0,0,.353l0.7,0.706a0.249,0.249,0,0,0,.352,0l2.849-2.862,2.849,2.862a0.249,0.249,0,0,0,.352,0l0.7-.706a0.25,0.25,0,0,0,0-.353Z"
-								// 				/* eslint-enable max-len */
-								// 				transform="translate(-557 -602)"
-								// 				/>
-								// 		</svg>
-								// 	)}
-								// </div>
 							) : (
-								<div className={'uploaded-images'} >
-									<img className={'uploaded-images__image'} style={{width: '100%', height: '100%'}} src={url} />
-									 {deleteElement || <div className="uploaded-images__remve-btn">(
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="7.969"
-									height="8"
-									viewBox="0 0 7.969 8">
-									<path
-										id="X_Icon"
-										data-name="X Icon"
-										style={{
-												 fill: disabled
-													 ? disabledColor
-													 : color,
-												 fillRule: 'evenodd',
-											 }}
-											 /* eslint-disable max-len */
-										d="M562.036,606l2.849-2.863a0.247,0.247,0,0,0,0-.352l-0.7-.706a0.246,0.246,0,0,0-.352,0l-2.849,2.862-2.849-2.862a0.247,0.247,0,0,0-.352,0l-0.7.706a0.249,0.249,0,0,0,0,.352L559.927,606l-2.849,2.862a0.25,0.25,0,0,0,0,.353l0.7,0.706a0.249,0.249,0,0,0,.352,0l2.849-2.862,2.849,2.862a0.249,0.249,0,0,0,.352,0l0.7-.706a0.25,0.25,0,0,0,0-.353Z"
-											 /* eslint-enable max-len */
-										transform="translate(-557 -602)"
-										/>
-								</svg>
-								 )</div>}
+								<div
+									className={
+										classNames.notification ||
+										`${classNamespace}notification`
+									}
+									style={
+										styles.notification
+											? {
+												...styles.notification,
+												...{
+													display: this.state
+															.displayNotification
+															? 'block'
+															: 'none',
+													backgroundColor: notificationBgColor,
+													color: notificationColor,
+												},
+											  }
+											: {
+												display: this.state
+														.displayNotification
+														? 'block'
+														: 'none',
+												backgroundColor: notificationBgColor,
+												color: notificationColor,
+											  }
+									}>
+									<span>
+										{this.props.notification ||
+											this.buildPlus(
+												disabled,
+												notificationColor,
+												disabledColor,
+												plusElement
+											)}
+									</span>
 								</div>
 							)}
 						</div>
