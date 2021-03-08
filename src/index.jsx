@@ -108,8 +108,6 @@ export default class ImagesUploader extends Component {
 			displayNotification: false,
 		};
 		this.input = null;
-
-		this.props.url = 'https://localhost:8080/upload/image/report';
 	}
 	/* eslint-enable react/sort-comp */
 
@@ -842,7 +840,7 @@ export default class ImagesUploader extends Component {
 						}
 						style={loadContainerStyle}>
 						{this.buildClose()}
-						{ <Dropzone
+						<Dropzone
 							onDrop={this.handleFileDrop}
 							disableClick
 							accept="image/*"
@@ -876,11 +874,11 @@ export default class ImagesUploader extends Component {
 								onDragOver={this.showNotification}
 								onDragLeave={this.hideNotification}>
 								{this.buildButtonContent()}
-								{(loadState === '' || loadState === 'success') && <p style={{fontSize: 10}} >사진을 올려주세요</p>}
+								{(loadState === '' || loadState === 'success') && <p style={{fontSize: 10}}>사진을 올려주세요</p>}
 								{loadState === 'loading' && <p style={{fontSize: 10}}>사진을 올리고 있습니다. 기다려주십시오.</p> }
 								{loadState === 'error' && <p style={{fontSize: 10}}>사진 올리기에 실패하였습니다.</p>}
 							</button>
-						</Dropzone>}
+						</Dropzone>
 					</div>
 					<input
 						name={inputId || 'filesInput'}
