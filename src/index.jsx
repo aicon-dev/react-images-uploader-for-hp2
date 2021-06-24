@@ -1,20 +1,20 @@
 /* @flow */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import fetch from 'isomorphic-fetch';
-import autobind from 'autobind-decorator';
-import classnames from 'classnames';
-import Dropzone from 'react-dropzone';
-import 'babel-core/register';
-import 'babel-polyfill';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import fetch from "isomorphic-fetch";
+import autobind from "autobind-decorator";
+import classnames from "classnames";
+import Dropzone from "react-dropzone";
+import "babel-core/register";
+import "babel-polyfill";
 
 export default class ImagesUploader extends Component {
 	/* eslint-disable react/sort-comp */
 	state: {
-		imagePreviewUrls: Array<string>;
-		loadState: string;
-		optimisticPreviews: Array<string>;
-		displayNotification: boolean;
+		imagePreviewUrls: Array<string>,
+		loadState: string,
+		optimisticPreviews: Array<string>,
+		displayNotification: boolean,
 	};
 	input: ?HTMLInputElement;
 
@@ -78,18 +78,18 @@ export default class ImagesUploader extends Component {
 	};
 
 	static defaultProps = {
-		dataName: 'imageFiles',
+		dataName: "imageFiles",
 		headers: {},
 		classNames: {},
 		styles: {},
 		multiple: true,
-		color: '#142434',
-		disabledColor: '#bec3c7',
-		borderColor: '#a9bac8',
-		disabledBorderColor: '#bec3c7',
-		notificationBgColor: 'rgba(0, 0, 0, 0.3)',
-		notificationColor: '#fafafa',
-		classNamespace: 'iu-',
+		color: "#142434",
+		disabledColor: "#bec3c7",
+		borderColor: "#a9bac8",
+		disabledBorderColor: "#bec3c7",
+		notificationBgColor: "rgba(0, 0, 0, 0.3)",
+		notificationColor: "#fafafa",
+		classNamespace: "iu-",
 	};
 
 	constructor(props: Object) {
@@ -103,7 +103,7 @@ export default class ImagesUploader extends Component {
 		}
 		this.state = {
 			imagePreviewUrls,
-			loadState: '',
+			loadState: "",
 			optimisticPreviews: [],
 			displayNotification: false,
 		};
@@ -115,9 +115,9 @@ export default class ImagesUploader extends Component {
 		// support SSR rendering.
 		// we should not use document on server, so just omit
 		// these calls
-		if (typeof document !== 'undefined') {
+		if (typeof document !== "undefined") {
 			document.addEventListener(
-				'dragover',
+				"dragover",
 				(event) => {
 					// prevent default to allow drop
 					event.preventDefault();
@@ -125,7 +125,7 @@ export default class ImagesUploader extends Component {
 				false
 			);
 			document.addEventListener(
-				'drop',
+				"drop",
 				(event) => {
 					// prevent default to allow drop
 					event.preventDefault();
@@ -159,7 +159,7 @@ export default class ImagesUploader extends Component {
 	@autobind
 	clickImage(key: number, url: string) {
 		const clickImageCallback = this.props.clickImage;
-		if (clickImageCallback && typeof clickImageCallback === 'function') {
+		if (clickImageCallback && typeof clickImageCallback === "function") {
 			clickImageCallback(key, url);
 		}
 	}
@@ -174,7 +174,7 @@ export default class ImagesUploader extends Component {
 			});
 			if (
 				this.props.deleteImage &&
-				typeof this.props.deleteImage === 'function'
+				typeof this.props.deleteImage === "function"
 			) {
 				this.props.deleteImage(key, url);
 			}
@@ -213,7 +213,7 @@ export default class ImagesUploader extends Component {
 						`${classNamespace}emptyPreview`
 					}
 					style={styles.emptyPreview}
-					/>
+				/>
 			);
 		}
 		let previews = [];
@@ -264,7 +264,8 @@ export default class ImagesUploader extends Component {
 							onClick={(e) => {
 								e.preventDefault();
 								this.clickImage(key, url);
-							}}>
+							}}
+						>
 							{!inButton ? (
 								<div
 									className={
@@ -276,13 +277,15 @@ export default class ImagesUploader extends Component {
 										e.preventDefault();
 										e.stopPropagation();
 										this.deleteImage(key, url);
-									}}>
+									}}
+								>
 									{deleteElement || (
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
 											width="7.969"
 											height="8"
-											viewBox="0 0 7.969 8">
+											viewBox="0 0 7.969 8"
+										>
 											<path
 												id="X_Icon"
 												data-name="X Icon"
@@ -290,13 +293,13 @@ export default class ImagesUploader extends Component {
 													fill: disabled
 														? disabledColor
 														: color,
-													fillRule: 'evenodd',
+													fillRule: "evenodd",
 												}}
 												/* eslint-disable max-len */
 												d="M562.036,606l2.849-2.863a0.247,0.247,0,0,0,0-.352l-0.7-.706a0.246,0.246,0,0,0-.352,0l-2.849,2.862-2.849-2.862a0.247,0.247,0,0,0-.352,0l-0.7.706a0.249,0.249,0,0,0,0,.352L559.927,606l-2.849,2.862a0.25,0.25,0,0,0,0,.353l0.7,0.706a0.249,0.249,0,0,0,.352,0l2.849-2.862,2.849,2.862a0.249,0.249,0,0,0,.352,0l0.7-.706a0.25,0.25,0,0,0,0-.353Z"
 												/* eslint-enable max-len */
 												transform="translate(-557 -602)"
-												/>
+											/>
 										</svg>
 									)}
 								</div>
@@ -309,25 +312,28 @@ export default class ImagesUploader extends Component {
 									style={
 										styles.notification
 											? {
-												...styles.notification,
-												...{
-													display: this.state
+													...styles.notification,
+													...{
+														display: this.state
 															.displayNotification
-															? 'block'
-															: 'none',
-													backgroundColor: notificationBgColor,
-													color: notificationColor,
-												},
+															? "block"
+															: "none",
+														backgroundColor:
+															notificationBgColor,
+														color: notificationColor,
+													},
 											  }
 											: {
-												display: this.state
+													display: this.state
 														.displayNotification
-														? 'block'
-														: 'none',
-												backgroundColor: notificationBgColor,
-												color: notificationColor,
+														? "block"
+														: "none",
+													backgroundColor:
+														notificationBgColor,
+													color: notificationColor,
 											  }
-									}>
+									}
+								>
 									<span>
 										{this.props.notification ||
 											this.buildPlus(
@@ -376,7 +382,7 @@ export default class ImagesUploader extends Component {
 								}
 								key={length + key}
 								style={imgPreviewStyle}
-								/>
+							/>
 						);
 					}
 					return null;
@@ -401,8 +407,7 @@ export default class ImagesUploader extends Component {
 				}
 
 				let response = await fetch(url, {
-					method: 'POST',
-					credentials: 'include',
+					method: "POST",
 					body: imageFormData,
 					headers: this.props.headers,
 				});
@@ -412,7 +417,7 @@ export default class ImagesUploader extends Component {
 					const multiple = this.props.multiple;
 					if (
 						response instanceof Array ||
-						typeof response === 'string'
+						typeof response === "string"
 					) {
 						let imagePreviewUrls = [];
 						if (multiple === false) {
@@ -421,61 +426,60 @@ export default class ImagesUploader extends Component {
 									? response
 									: [response];
 						} else {
-							imagePreviewUrls = this.state.imagePreviewUrls.concat(
-								response
-							);
+							imagePreviewUrls =
+								this.state.imagePreviewUrls.concat(response);
 						}
 
 						setTimeout(() => {
 							this.setState({
 								imagePreviewUrls,
-								loadState: 'success',
+								loadState: "success",
 							});
 						}, 2000);
-				
-						if (onLoadEnd && typeof onLoadEnd === 'function') {
+
+						if (onLoadEnd && typeof onLoadEnd === "function") {
 							onLoadEnd(false, response);
 						}
 					} else {
 						const err = {
-							message: 'invalid response type',
+							message: "invalid response type",
 							response,
-							fileName: 'ImagesUploader',
+							fileName: "ImagesUploader",
 						};
 						setTimeout(() => {
 							this.setState({
-								loadState: 'error',
+								loadState: "error",
 								optimisticPreviews: [],
 							});
 						}, 2000);
-						if (onLoadEnd && typeof onLoadEnd === 'function') {
+						if (onLoadEnd && typeof onLoadEnd === "function") {
 							onLoadEnd(err);
 						}
 					}
 				} else {
 					const err = {
-						message: 'server error',
+						message: "server error",
 						status: response ? response.status : false,
 						response,
-						fileName: 'ImagesUploader',
+						fileName: "ImagesUploader",
 					};
 					setTimeout(() => {
 						this.setState({
-							loadState: 'error',
+							loadState: "error",
 							optimisticPreviews: [],
 						});
 					}, 2000);
-					if (onLoadEnd && typeof onLoadEnd === 'function') {
+					if (onLoadEnd && typeof onLoadEnd === "function") {
 						onLoadEnd(err);
 					}
 				}
 			} catch (err) {
-				if (onLoadEnd && typeof onLoadEnd === 'function') {
+				if (onLoadEnd && typeof onLoadEnd === "function") {
 					onLoadEnd(err);
 				}
 				setTimeout(() => {
 					this.setState({
-						loadState: 'error',
+						loadState: "error",
 						optimisticPreviews: [],
 					});
 				}, 2000);
@@ -488,25 +492,20 @@ export default class ImagesUploader extends Component {
 		e.preventDefault();
 
 		const filesList = e.target.files;
-		const {
-			onLoadStart,
-			onLoadEnd,
-			url,
-			optimisticPreviews,
-			multiple,
-		} = this.props;
+		const { onLoadStart, onLoadEnd, url, optimisticPreviews, multiple } =
+			this.props;
 
 		// Return when cancel button click but onChange event trigger
 		if (filesList.length === 0) {
 			return;
 		}
 
-		if (onLoadStart && typeof onLoadStart === 'function') {
+		if (onLoadStart && typeof onLoadStart === "function") {
 			onLoadStart();
 		}
 
 		this.setState({
-			loadState: 'loading',
+			loadState: "loading",
 		});
 		if (
 			this.props.max &&
@@ -514,15 +513,15 @@ export default class ImagesUploader extends Component {
 				this.props.max
 		) {
 			const err = {
-				message: 'exceeded the number',
+				message: "exceeded the number",
 			};
 			setTimeout(() => {
 				this.setState({
-					loadState: 'error',
+					loadState: "error",
 					optimisticPreviews: [],
 				});
 			}, 2000);
-			if (onLoadEnd && typeof onLoadEnd === 'function') {
+			if (onLoadEnd && typeof onLoadEnd === "function") {
 				onLoadEnd(err);
 			}
 			return;
@@ -539,8 +538,8 @@ export default class ImagesUploader extends Component {
 							optimisticPreviews: [upload.target.result],
 						});
 					} else {
-						const prevOptimisticPreviews = this.state
-							.optimisticPreviews;
+						const prevOptimisticPreviews =
+							this.state.optimisticPreviews;
 						this.setState({
 							optimisticPreviews: prevOptimisticPreviews.concat(
 								upload.target.result
@@ -551,18 +550,18 @@ export default class ImagesUploader extends Component {
 				reader.readAsDataURL(file);
 			}
 
-			if (!file.type.match('image.*')) {
+			if (!file.type.match("image.*")) {
 				const err = {
-					message: 'file type error',
+					message: "file type error",
 					type: file.type,
-					fileName: 'ImagesUploader',
+					fileName: "ImagesUploader",
 				};
-				if (onLoadEnd && typeof onLoadEnd === 'function') {
+				if (onLoadEnd && typeof onLoadEnd === "function") {
 					onLoadEnd(err);
 				}
 				setTimeout(() => {
 					this.setState({
-						loadState: 'error',
+						loadState: "error",
 					});
 				}, 2000);
 				return;
@@ -607,7 +606,8 @@ export default class ImagesUploader extends Component {
 					y="0px"
 					viewBox="0 0 1000 1000"
 					enableBackground="new 0 0 1000 1000"
-					xmlSpace="preserve">
+					xmlSpace="preserve"
+				>
 					<g>
 						<path d="M500,10c13.5,0,25.1,4.8,34.7,14.4C544.2,33.9,549,45.5,549,59v392h392c13.5,0,25.1,4.8,34.7,14.4c9.6,9.6,14.4,21.1,14.4,34.7c0,13.5-4.8,25.1-14.4,34.6c-9.6,9.6-21.1,14.4-34.7,14.4H549v392c0,13.5-4.8,25.1-14.4,34.7c-9.6,9.6-21.1,14.4-34.7,14.4c-13.5,0-25.1-4.8-34.7-14.4c-9.6-9.6-14.4-21.1-14.4-34.7V549H59c-13.5,0-25.1-4.8-34.7-14.4C14.8,525.1,10,513.5,10,500c0-13.5,4.8-25.1,14.4-34.7C33.9,455.8,45.5,451,59,451h392V59c0-13.5,4.8-25.1,14.4-34.7C474.9,14.8,486.5,10,500,10L500,10z" />
 					</g>
@@ -640,24 +640,33 @@ export default class ImagesUploader extends Component {
 		if (multiple !== false) {
 			return (
 				<div>
-					{(this.state.loadState === '' || this.state.loadState === 'success') && <div>
-						<p style={{fontSize: 10}}>
-							 <span
-								className={
-						classNames.pseudobuttonContent ||
-						`${classNamespace}pseudobuttonContent`
-					}
-								style={pseudobuttonContentStyle}>
-								{this.buildPlus(
-						disabled,
-						color,
-						disabledColor,
-						plusElement
+					{(this.state.loadState === "" ||
+						this.state.loadState === "success") && (
+						<div>
+							<p style={{ fontSize: 10 }}>
+								<span
+									className={
+										classNames.pseudobuttonContent ||
+										`${classNamespace}pseudobuttonContent`
+									}
+									style={pseudobuttonContentStyle}
+								>
+									{this.buildPlus(
+										disabled,
+										color,
+										disabledColor,
+										plusElement
+									)}
+								</span>
+							</p>
+						</div>
 					)}
-							</span>
-						</p></div>}
-					{this.state.loadState === 'loading' && <div className="loader">올리는 중...</div>}
-					{this.state.loadState === 'error' && <p style={{fontSize: 15, color: 'red'}}>첨부 실패</p>}
+					{this.state.loadState === "loading" && (
+						<div className="loader">올리는 중...</div>
+					)}
+					{this.state.loadState === "error" && (
+						<p style={{ fontSize: 15, color: "red" }}>첨부 실패</p>
+					)}
 				</div>
 			);
 		}
@@ -667,25 +676,36 @@ export default class ImagesUploader extends Component {
 			(!optimisticPreviews || optimisticPreviews.length < 1)
 		) {
 			return (
-				<div >
-					{(this.state.loadState === '' || this.state.loadState === 'success') && <div>
-						<p style={{fontSize: 10}}>
-							 <span
-								className={
-						classNames.pseudobuttonContent ||
-						`${classNamespace}pseudobuttonContent`
-					}
-								style={pseudobuttonContentStyle}>
-								{this.buildPlus(
-						disabled,
-						color,
-						disabledColor,
-						plusElement
+				<div>
+					{(this.state.loadState === "" ||
+						this.state.loadState === "success") && (
+						<div>
+							<p style={{ fontSize: 10 }}>
+								<span
+									className={
+										classNames.pseudobuttonContent ||
+										`${classNamespace}pseudobuttonContent`
+									}
+									style={pseudobuttonContentStyle}
+								>
+									{this.buildPlus(
+										disabled,
+										color,
+										disabledColor,
+										plusElement
+									)}
+								</span>
+							</p>
+						</div>
 					)}
-							</span>
-						</p></div>}
-					{this.state.loadState === 'loading' && <div style={{background: 'white'}} className="loader">Loading...</div>}
-					{this.state.loadState === 'error' && <p style={{fontSize: 15, color: 'red'}}>첨부 실패</p>}
+					{this.state.loadState === "loading" && (
+						<div style={{ background: "white" }} className="loader">
+							Loading...
+						</div>
+					)}
+					{this.state.loadState === "error" && (
+						<p style={{ fontSize: 15, color: "red" }}>첨부 실패</p>
+					)}
 				</div>
 			);
 		}
@@ -732,25 +752,27 @@ export default class ImagesUploader extends Component {
 				onClick={(e) => {
 					e.preventDefault();
 					this.deleteImage(0);
-				}}>
+				}}
+			>
 				{deleteElement || (
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="7.969"
 						height="8"
-						viewBox="0 0 7.969 8">
+						viewBox="0 0 7.969 8"
+					>
 						<path
 							id="X_Icon"
 							data-name="X Icon"
 							style={{
 								fill: disabled ? disabledColor : color,
-								fillRrule: 'evenodd',
+								fillRrule: "evenodd",
 							}}
 							/* eslint-disable max-len */
 							d="M562.036,606l2.849-2.863a0.247,0.247,0,0,0,0-.352l-0.7-.706a0.246,0.246,0,0,0-.352,0l-2.849,2.862-2.849-2.862a0.247,0.247,0,0,0-.352,0l-0.7.706a0.249,0.249,0,0,0,0,.352L559.927,606l-2.849,2.862a0.25,0.25,0,0,0,0,.353l0.7,0.706a0.249,0.249,0,0,0,.352,0l2.849-2.862,2.849,2.862a0.249,0.249,0,0,0,.352,0l0.7-.706a0.25,0.25,0,0,0,0-.353Z"
 							/* eslint-enable max-len */
 							transform="translate(-557 -602)"
-							/>
+						/>
 					</svg>
 				)}
 			</div>
@@ -808,8 +830,8 @@ export default class ImagesUploader extends Component {
 		const loadContainerStyle = {
 			...(size
 				? {
-					width: size,
-					height: size,
+						width: size,
+						height: size,
 				  }
 				: {}),
 			...{
@@ -821,8 +843,8 @@ export default class ImagesUploader extends Component {
 		const pseudobuttonStyle = {
 			...(size
 				? {
-					width: size,
-					height: size,
+						width: size,
+						height: size,
 				  }
 				: {}),
 			...{
@@ -845,13 +867,13 @@ export default class ImagesUploader extends Component {
 			...(styles.dropzone || {}),
 		};
 
-
 		return (
 			<div className={containerClassNames} style={styles.container || {}}>
 				<label
 					className={classNames.label || `${classNamespace}label`}
 					style={labelStyle}
-					htmlFor={inputId || 'filesInput'}>
+					htmlFor={inputId || "filesInput"}
+				>
 					{label || null}
 				</label>
 				<div
@@ -859,13 +881,15 @@ export default class ImagesUploader extends Component {
 						classNames.filesInputContainer ||
 						`${classNamespace}filesInputContainer`
 					}
-					style={styles.filesInputContainer}>
+					style={styles.filesInputContainer}
+				>
 					<div
 						className={
 							classNames.loadContainer ||
 							`${classNamespace}loadContainer`
 						}
-						style={loadContainerStyle}>
+						style={loadContainerStyle}
+					>
 						{this.buildClose()}
 						<Dropzone
 							onDrop={this.handleFileDrop}
@@ -880,7 +904,8 @@ export default class ImagesUploader extends Component {
 								/* eslint-disable no-unneeded-ternary */
 								multiple === false ? false : true
 								/* eslint-enable no-unneeded-ternary */
-							}>
+							}
+						>
 							<button
 								state={loadState}
 								type="button"
@@ -899,20 +924,21 @@ export default class ImagesUploader extends Component {
 								onMouseOver={this.showNotification}
 								onMouseLeave={this.hideNotification}
 								onDragOver={this.showNotification}
-								onDragLeave={this.hideNotification}>
+								onDragLeave={this.hideNotification}
+							>
 								{this.buildButtonContent()}
 							</button>
 						</Dropzone>
 					</div>
 					<input
-						name={inputId || 'filesInput'}
-						id={inputId || 'filesInput'}
+						name={inputId || "filesInput"}
+						id={inputId || "filesInput"}
 						className={
 							classNames.fileInput || `${classNamespace}fileInput`
 						}
 						style={{
 							...{
-								display: 'none',
+								display: "none",
 							},
 							...(styles.fileInput || {}),
 						}}
@@ -921,10 +947,10 @@ export default class ImagesUploader extends Component {
 						}}
 						type="file"
 						accept="image/*"
-						multiple={multiple === false ? false : 'multiple'}
-						disabled={disabled || loadState === 'loading'}
+						multiple={multiple === false ? false : "multiple"}
+						disabled={disabled || loadState === "loading"}
 						onChange={this.handleImageChange}
-						/>
+					/>
 				</div>
 				{multiple !== false
 					? this.buildPreviews(
