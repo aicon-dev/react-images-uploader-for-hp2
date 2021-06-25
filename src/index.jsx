@@ -419,6 +419,7 @@ export default class ImagesUploader extends Component {
 					(response && response.status && response.status === 201)
 				) {
 					response = await response.json();
+					console.log("gyutae - response.json()", response);
 					const multiple = this.props.multiple;
 					if (
 						response instanceof Array ||
