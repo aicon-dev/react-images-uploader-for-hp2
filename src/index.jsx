@@ -429,12 +429,15 @@ export default class ImagesUploader extends Component {
 						if (multiple === false) {
 							imagePreviewUrls =
 								response instanceof Array
-									? response.url
+									? [response[0].url]
 									: [response.url];
 						} else {
+							const responseUrls = response.map(
+								(element) => element.url
+							);
 							imagePreviewUrls = [
 								...this.state.imagePreviewUrls,
-								response.url,
+								...responseUrls,
 							];
 						}
 
