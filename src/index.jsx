@@ -412,7 +412,10 @@ export default class ImagesUploader extends Component {
 					headers: this.props.headers,
 				});
 
-				if (response && response.status && response.status === 200) {
+				if (
+					(response && response.status && response.status === 200) ||
+					(response && response.status && response.status === 201)
+				) {
 					response = await response.json();
 					const multiple = this.props.multiple;
 					if (
