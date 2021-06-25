@@ -412,6 +412,8 @@ export default class ImagesUploader extends Component {
 					headers: this.props.headers,
 				});
 
+				console.log("gyutae - response", response);
+
 				if (
 					(response && response.status && response.status === 200) ||
 					(response && response.status && response.status === 201)
@@ -426,12 +428,19 @@ export default class ImagesUploader extends Component {
 						if (multiple === false) {
 							imagePreviewUrls =
 								response instanceof Array
-									? response
-									: [response];
+									? response.url
+									: [response.url];
 						} else {
-							imagePreviewUrls =
-								this.state.imagePreviewUrls.concat(response);
+							imagePreviewUrls = [
+								...this.state.imagePreviewUrls,
+								response.url,
+							];
 						}
+
+						console.log(
+							"gyutae - imagePreviewUrls",
+							imagePreviewUrls
+						);
 
 						setTimeout(() => {
 							this.setState({
