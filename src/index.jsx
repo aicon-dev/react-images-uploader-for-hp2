@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import fetch from "isomorphic-fetch";
 import autobind from "autobind-decorator";
+import Resizer from "react-image-file-resizer";
 import classnames from "classnames";
 import Dropzone from "react-dropzone";
 import "babel-core/register";
@@ -22,7 +23,8 @@ export default class ImagesUploader extends Component {
 		url: PropTypes.string.isRequired,
 		dataName: PropTypes.string,
 		headers: PropTypes.object,
-		classNamespace: PropTypes.string,
+		resizeOption: PropTypes.object,
+	 	classNamespace: PropTypes.string,
 		inputId: PropTypes.string,
 		label: PropTypes.string,
 		images: PropTypes.array,
@@ -80,6 +82,7 @@ export default class ImagesUploader extends Component {
 	static defaultProps = {
 		dataName: "imageFiles",
 		headers: {},
+		resizeOption: {},
 		classNames: {},
 		styles: {},
 		multiple: true,
@@ -496,13 +499,32 @@ export default class ImagesUploader extends Component {
 		}
 	}
 
+  async resizeFile(file, maxWidth, maxHeight, quality = 100) {
+		const compressFormat = file.type.indexOf('png') > -1 ? 'PNG' : 'JPEG'
+		return new Promise((resolve) => {
+			Resizer.imageFileResizer(
+				file,
+				maxWidth,
+				maxHeight,
+				compressFormat,
+				quality,
+				0,
+				(file) => {
+					resolve(file);
+				},
+				"file"
+			);
+		});
+	}
+
 	@autobind
-	handleImageChange(e: Object) {
+	async handleImageChange(e: Object) {
 		e.preventDefault();
 
-		const filesList = e.target.files;
-		const { onLoadStart, onLoadEnd, url, optimisticPreviews, multiple } =
+		const filesList = [...e.target.files];
+		const { onLoadStart, onLoadEnd, url, optimisticPreviews, multiple, resizeOption } =
 			this.props;
+		const { quality, maxWidth, maxHeight } = resizeOption;
 
 		// Return when cancel button click but onChange event trigger
 		if (filesList.length === 0) {
@@ -575,10 +597,19 @@ export default class ImagesUploader extends Component {
 				}, 2000);
 				return;
 			}
+
+			const isPngOrJpeg = file.type === 'image/jpeg' ? 'JPEG' : (file.type === 'image/png' ? 'PNG' : null);
+			if ((maxWidth || maxHeight) && isPngOrJpeg) {
+				try {
+					filesList[i] = await this.resizeFile(file, maxWidth, maxHeight, quality);
+				} catch (e) {
+				  console.log('IMAGE RESIZE FAIL', e)
+				}
+			}
 		}
 
 		if (url) {
-			this.loadImages(filesList, url, onLoadEnd);
+		this.loadImages(filesList, url, onLoadEnd);
 		}
 	}
 

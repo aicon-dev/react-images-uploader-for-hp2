@@ -1,11 +1,11 @@
 {
   "name": "react-images-uploader",
-  "version": "1.2.0-rc1",
+  "version": "1.2.0-rc2",
   "description": "React.js component for uploading images to the server",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src --out-dir lib && webpack && gulp && cd ./examples/ && webpack",
+    "build": "babel src --out-dir lib",
     "watch-styles": "gulp watch",
     "watch-examples": "cd ./examples/ && webpack --watch",
     "dev-server": "cd ./hot-reload && webpack-dev-server --history-api-fallback --config webpack.config.js",
@@ -56,6 +56,7 @@
     "react-dom": "^15.4.1",
     "react-dropzone": "^3.7.3",
     "react-hot-loader": "^3.0.0-beta.6",
+    "react-image-file-resizer": "^0.4.7",
     "react-progress-button-for-images-uploader": "^5.0.1"
   },
   "devDependencies": {
