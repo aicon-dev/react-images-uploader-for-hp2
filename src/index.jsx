@@ -431,7 +431,7 @@ export default class ImagesUploader extends Component {
 									: [response.thumbnailUrl || response[0].url];
 						} else {
 							const responseUrls = response.map(
-								(element) => element.url
+								(element) => element.thumbnailUrl || element.url
 							);
 							imagePreviewUrls = [
 								...this.state.imagePreviewUrls,
